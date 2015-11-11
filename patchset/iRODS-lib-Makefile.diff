@@ -1,0 +1,9 @@
+@@ -21,7 +21,7 @@
+ 
+ extendedICAT.h =	$(buildDir)/modules/extendedICAT/extendedICAT.h
+ 
+-
++CFLAGS += -fPIC
+ 
+ #
+ # Source files
