@@ -1,7 +1,7 @@
 # baton in Docker
 ## Building the container
 ```bash
-docker build -t hgi/baton -f Dockerfile
+docker build -t hgi/baton -f Dockerfile .
 ```
 
 ## Using the container
