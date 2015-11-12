@@ -33,7 +33,7 @@ then
         settingsFile="$(basename $IRODS_SETTINGS)"
         errorMessage="$missingVariable environment variable must be set. Alternatively, mount a directory containing an iRODs client settings file '$settingsFile' in '$settingsDirectory/'"
         echo "$errorMessage" >> $logLocation
-        >&2 echo "$errorMessage"
+        >&2 cat $logLocation
         exit 1
     else
         echo "irodsUserName $IRODS_USERNAME" >> $IRODS_SETTINGS
@@ -44,6 +44,21 @@ then
     fi
 else
     echo "$IRODS_SETTINGS has been mounted in a volume" >> $logLocation
+fi
+
+cat $IRODS_SETTINGS >> $logLocation
+
+if [ -n "$IRODS_PASSWORD" ]
+then
+    echo "iRODs password supplied to authenticate user '$IRODS_USERNAME'" >> $logLocation
+    iinit "$IRODS_PASSWORD" 2>> $logLocation
+    if [ $? -ne 0 ]
+    then
+        >&2 cat $logLocation
+        exit 1
+    fi
+else
+    echo "iRODs password not supplied" >> $logLocation
 fi
 
 echo "Executing user command: $*" >> $logLocation
