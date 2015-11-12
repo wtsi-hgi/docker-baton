@@ -7,20 +7,33 @@ docker build -t wtsi-hgi/baton -f Dockerfile .
 ```
 
 ## Using the container
+### Suppling configuration through environmental variables
 ```bash
-docker run -it -e IRODS_USERNAME=<username> -e IRODS_HOST=<host> -e IRODS_PORT=<port> -e IRODS_ZONE=<zone> wtsi-hgi/baton <baton_command>
+docker run -it -e IRODS_USERNAME=<username> -e IRODS_HOST=<host> -e IRODS_PORT=<port> -e IRODS_ZONE=<zone> -e IRODS_PASSWORD=<password> wtsi-hgi/baton <baton_command>
+
+# e.g.
+docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton baton-get
 ```
-e.g.
+
+### Suppling configuration by mounting them
 ```bash
-docker run -it -e IRODS_USERNAME="my_username" -e IRODS_HOST="my.irods.host" -e IRODS_PORT=1234 -e IRODS_ZONE="my_zone" wtsi-hgi/baton baton-get
+docker run -it -v <local_directory>:/root/.irods -e IRODS_PASSWORD=<password> wtsi-hgi/baton <baton_command>
+
+# e.g.
+docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton baton-get
 ```
 
-All environment variables (IRODS_USERNAME, IRODS_HOST, IRODS_PORT, IRODS_ZONE) must be set.
+### Notes
+- If an incorrect password is supplied with `IRODS_PASSWORD`, the run will terminate with a non-zero exit status.
+- IRODS_PASSWORD is optional.
+- If the configuration is mounted, it will not be overridden with configurations supplied using environmental variables.
 
 
-docker run -it -v $PWD/.irods:/root/.irods -e IRODS_PASSWORD="testuser" wtsi-hgi/baton bash
+## Debugging the container
+The best way to find out what is going on in the container is to get a bash shell:
+```bash
+docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" wtsi-hgi/baton bash
+```
+**Do not supply a password if things are not working, as if it cannot be validated, the run will exit.**
 
-docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton bash
-
-
-Will exit with error if IRODS_PASSWORD is incorrect.
+It is possible to use [iRODs icommands](https://docs.irods.org/master/icommands/user/) to debug the container.
