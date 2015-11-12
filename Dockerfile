@@ -16,7 +16,8 @@ RUN apt-get install -y --no-install-recommends \
     patch \
     ca-certificates \
     libboost-dev \
-    libssl-dev
+    libssl-dev \
+    jq
 
 # Environment variables for use in build
 ENV SOFTWARE /software
@@ -76,5 +77,6 @@ RUN mkdir -p $(dirname $IRODS_SETTINGS)
 # Setup entry script
 RUN mkdir $SCRIPTS
 WORKDIR $SCRIPTS
-COPY baton-run.sh baton-run.sh
-ENTRYPOINT ["./baton-run.sh"]
+COPY setup.sh setup.sh
+ENTRYPOINT ["./setup.sh"]
+CMD ["bash"]
