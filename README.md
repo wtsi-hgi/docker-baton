@@ -47,13 +47,14 @@ docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" w
 - IRODS_PASSWORD is optional.
 - If the configuration is mounted, it will not be overridden with configurations supplied using environmental variables.
 
+
 ### Testing software with a baton dependency
-#### Run a iRODs testing server
+#### Run an iRODs testing server
 The [only official iRODs server Docker image](https://hub.docker.com/r/irods/icat/) is for iRODs version 4.0.3. However, the [iRODs version 3.3.1 server Docker image](https://hub.docker.com/r/agaveapi/irods/) created by [agaveapi](https://hub.docker.com/u/agaveapi/) can be used.
 ```bash
 docker run -d -p 1247:1247 --name=irods3.3.1 agaveapi/irods:3.3.1
 ```
-The .irodsEnv required to connect as the preconfigured 'testuser' is:
+The `.irodsEnv` required to connect as the preconfigured 'testuser' is:
 ```
 irodsUserName testuser
 irodsHost <your_docker_ip>
@@ -64,18 +65,18 @@ The password for 'testuser' is 'testuser'.
 
 #### Test connection
 ```bash
-docker-baton cn13$ docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton ils
+docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:<variant> ils
 ```
 
 #### Query with baton
 ```bash
-docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:0.16.1 <baton_query>
+docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:<variant> <baton_query>
 ```
 
 ## Debugging
 The best way to find out what is going on in the container is to get a bash shell:
 ```bash
-docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" wtsi-hgi/baton bash
+docker run -it -e IRODS_USERNAME=<user> -e IRODS_HOST=<host> -e IRODS_PORT=1247 -e IRODS_ZONE=<zone> wtsi-hgi/baton:<variant> bash
 ```
 **Do not supply a password if things are not working, as if it cannot be validated, the run will exit.**
 
