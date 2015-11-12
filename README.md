@@ -1,16 +1,17 @@
 # baton in Docker
-Containerised baton version 0.16.1, configured for use with iRODs version 3.3.1.
+## Variants
+- [baton version 0.16.1 using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/organising/0.16.1/irods-3.3.1)
 
 
 ## Building the container
 ### From GitHub
 ```bash
-docker build -t wtsi-hgi/baton github.com/wtsi-hgi/docker-baton.git
+docker build -t wtsi-hgi/baton -f 0.16.1/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
 ```
 
 ### Locally
 ```bash
-docker build -t wtsi-hgi/baton -f Dockerfile .
+docker build -t wtsi-hgi/baton -f 0.16.1/irods-3.3.1/Dockerfile .
 ```
 
 
