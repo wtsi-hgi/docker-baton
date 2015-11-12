@@ -24,6 +24,8 @@ ENV IRODS $SOFTWARE/irods-legacy/iRODS
 ENV JANSSON $SOFTWARE/jansson
 ENV BATON $SOFTWARE/baton
 ENV PATCHSET /patchset
+ENV IRODS_SETTINGS /root/.irods/.irodsEnv
+ENV SCRIPTS /scripts
 
 # Environment variables used by software
 ENV IRODS_HOME $IRODS
@@ -50,7 +52,7 @@ RUN patch lib/Makefile $PATCHSET/iRODS-lib-Makefile.diff
 RUN perl scripts/perl/configure.pl
 RUN make libs
 # icommands are not required for baton but may be useful in debugging iRODs
-# server connection issues?
+# server connection issues
 RUN make icommands
 ENV PATH $PATH:$IRODS/clients/icommands/bin
 
@@ -67,3 +69,13 @@ RUN autoreconf -fvi
 RUN ./configure --with-irods=$IRODS_HOME
 RUN make
 RUN make install
+
+# Make settings file for baton/iRODs
+RUN mkdir -p $(dirname $IRODS_SETTINGS)
+RUN touch $IRODS_SETTINGS
+
+# Setup entry script
+RUN mkdir $SCRIPTS
+WORKDIR $SCRIPTS
+COPY baton-run.sh baton-run.sh
+ENTRYPOINT ["./baton-run.sh"]
