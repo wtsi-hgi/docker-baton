@@ -47,7 +47,7 @@ docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" w
 - IRODS_PASSWORD is optional.
 - If the configuration is mounted, it will not be overridden with configurations supplied using environmental variables.
 
-### For testing software with a baton dependency
+### Testing software with a baton dependency
 #### Run a iRODs testing server
 The [only official iRODs server Docker image](https://hub.docker.com/r/irods/icat/) is for iRODs version 4.0.3. However, the [iRODs version 3.3.1 server Docker image](https://hub.docker.com/r/agaveapi/irods/) created by [agaveapi](https://hub.docker.com/u/agaveapi/) can be used.
 ```bash
@@ -59,6 +59,17 @@ irodsUserName testuser
 irodsHost <your_docker_ip>
 irodsPort 1247
 irodsZone iplant
+```
+The password for 'testuser' is 'testuser'.
+
+#### Test connection
+```bash
+docker-baton cn13$ docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton ils
+```
+
+#### Query with baton
+```bash
+docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:0.16.1 <baton_query>
 ```
 
 ## Debugging
