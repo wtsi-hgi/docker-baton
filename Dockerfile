@@ -70,9 +70,8 @@ RUN ./configure --with-irods=$IRODS_HOME
 RUN make
 RUN make install
 
-# Make settings file for baton/iRODs
+# Make settings folder for baton/iRODs
 RUN mkdir -p $(dirname $IRODS_SETTINGS)
-RUN touch $IRODS_SETTINGS
 
 # Setup entry script
 RUN mkdir $SCRIPTS
