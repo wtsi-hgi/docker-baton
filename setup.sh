@@ -1,12 +1,22 @@
 #!/bin/bash
 logLocation="log"
 
+function exitWithError {
+    >&2 cat $logLocation
+
+    if [ "$DEBUG" -eq 1 ]
+    then
+        echo "Opening bash script for debugging"
+        bash
+    fi
+    exit 1
+}
+
 if [ -z "$IRODS_SETTINGS" ]
 then
     errorMessage="IRODS_SETTINGS not set"
     echo "$errorMessage" >> $logLocation
-    >&2 echo "$errorMessage"
-    exit 1
+    exitWithError
 fi
 
 if [ ! -f "$IRODS_SETTINGS" ]
@@ -33,8 +43,7 @@ then
         settingsFile="$(basename $IRODS_SETTINGS)"
         errorMessage="$missingVariable environment variable must be set. Alternatively, mount a directory containing an iRODs client settings file '$settingsFile' in '$settingsDirectory/'"
         echo "$errorMessage" >> $logLocation
-        >&2 cat $logLocation
-        exit 1
+        exitWithError
     else
         echo "irodsUserName $IRODS_USERNAME" >> $IRODS_SETTINGS
         echo "irodsHost $IRODS_HOST" >> $IRODS_SETTINGS
@@ -54,8 +63,7 @@ then
     iinit "$IRODS_PASSWORD" 2>> $logLocation
     if [ $? -ne 0 ]
     then
-        >&2 cat $logLocation
-        exit 1
+        exitWithError
     fi
 else
     echo "iRODs password not supplied" >> $logLocation

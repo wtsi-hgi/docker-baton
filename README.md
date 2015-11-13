@@ -36,15 +36,15 @@ docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST="192.168.99.100" -e IR
 
 #### Suppling configuration by mounting them
 ```bash
-docker run -it -v <local_directory>:/root/.irods -e IRODS_PASSWORD=<password> wtsi-hgi/baton <baton_command>
+docker run -it -v <local_directory>:/root/.irods -e IRODS_PASSWORD=<password> wtsi-hgi/baton:<variant> <baton_command>
 
 # e.g.
-docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton baton-get
+docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton:0.16.1 baton-get
 ```
 
 #### Notes
 - If an incorrect password is supplied with `IRODS_PASSWORD`, the run will terminate with a non-zero exit status.
-- IRODS_PASSWORD is optional.
+- `IRODS_PASSWORD` is optional.
 - If the configuration is mounted, it will not be overridden with configurations supplied using environmental variables.
 
 
@@ -78,6 +78,9 @@ The best way to find out what is going on in the container is to get a bash shel
 ```bash
 docker run -it -e IRODS_USERNAME=<user> -e IRODS_HOST=<host> -e IRODS_PORT=1247 -e IRODS_ZONE=<zone> wtsi-hgi/baton:<variant> bash
 ```
-**Do not supply a password if things are not working, as if it cannot be validated, the run will exit.**
+To get into a bash shell, even if your setup causes the run to exit, set `DEBUG` to `1`:
+```bash
+docker run -it -e DEBUG=1 wtsi-hgi/baton:<variant>
+```
 
 It is possible to use [iRODs icommands](https://docs.irods.org/master/icommands/user/) to debug the configuration.
