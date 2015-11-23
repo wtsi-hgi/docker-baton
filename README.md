@@ -44,8 +44,8 @@ docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" w
 ```
 
 #### Notes
-- If an incorrect password is supplied with `IRODS_PASSWORD`, the run will terminate with a non-zero exit status ([unless `DEBUG` is set](#Debugging)).
-- `IRODS_PASSWORD` is optional.
+- If an incorrect password is supplied with `IRODS_PASSWORD`, the run will terminate with a non-zero exit status ([unless `DEBUG` is set](#debugging)).
+- `IRODS_PASSWORD` is optional. If not set, every query to the iRODS server will require authentication.
 - If the configuration is mounted, it will not be overridden with configurations supplied using environmental variables.
 
 

@@ -8,7 +8,7 @@ function exitWithError {
     then
         if [[ "$DEBUG" -eq 1 ]]
         then
-            echo "Opening bash script for debugging"
+            echo "Opening bash shell for debugging"
             bash
         fi
     fi
