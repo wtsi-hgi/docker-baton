@@ -23,6 +23,10 @@ docker build -t wtsi-hgi/baton:<variant> -f <variant>/irods-3.3.1/Dockerfile .
 # e.g.
 docker build -t wtsi-hgi/baton:0.16.1 -f 0.16.1/irods-3.3.1/Dockerfile .
 ```
+Alternatively, use the script:
+```bash
+./scripts/build.sh <batonVariant>
+```
 
 
 ## Using the container
