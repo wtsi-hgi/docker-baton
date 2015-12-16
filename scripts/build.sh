@@ -3,11 +3,6 @@ set -e
 DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$DIRECTORY/../"
 
-batonVariant=$1
-irodsVariant="irods-3.3.1"
+. scripts/_load-args.sh
 
-source scripts/_argument-validation.sh
-validateBatonVariant $1
-validateIrodsVariant $1 $irodsVariant
-
-docker build -t wtsi-hgi/baton:"$batonVariant" -f "$batonVariant"/"$irodsVariant"/Dockerfile .
+docker build --build-arg BRANCH="$batonBranch" --build-arg REPOSITORY="$batonRepository" -t "wtsi-hgi/baton:custom-$batonBranch" -f "custom/$irodsVariant/Dockerfile" .

@@ -20,6 +20,10 @@ RUN apt-get install -y --no-install-recommends \
     jq \
     perl-doc
 
+# Build arguments
+ARG BRANCH
+ARG REPOSITORY
+
 # Environment variables for use in build
 ENV SOFTWARE /software
 ENV IRODS $SOFTWARE/irods-legacy/iRODS
@@ -42,7 +46,7 @@ RUN mkdir $SOFTWARE
 WORKDIR $SOFTWARE
 RUN git clone --depth 1 --branch $IRODS_VERSION https://github.com/irods/irods-legacy.git
 RUN git clone --depth 1 --branch v2.6 https://github.com/akheron/jansson.git
-RUN git clone --depth 1 --branch devel https://github.com/wtsi-npg/baton.git
+RUN git clone --depth 1 --branch $BRANCH $REPOSITORY
 
 # baton also requires a bunch of Perl modules
 RUN cpanm JSON List::AllUtils
