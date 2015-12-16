@@ -8,7 +8,7 @@
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
 
 #### Custom
-To build a custom version of baton, ``BRANCH` and ``REPOSITORY`` must be given as [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg).
+To build a custom version of baton, ``BRANCH`` and ``REPOSITORY`` must be given as [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg).
 - [custom baton version, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/custom/irods-3.3.1).
 
 ### Build commands
@@ -18,7 +18,7 @@ docker build -t wtsi-hgi/baton:<tag> -f <batonVariant>/irods-3.3.1/Dockerfile gi
 
 # e.g.
 docker build -t wtsi-hgi/baton:0.16.1 -f 0.16.1/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
-docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1 -f custom/irods-3.3.1/Dockerfile  github.com/wtsi-hgi/docker-baton.git
+docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1 -f custom/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
 ```
 
 #### Locally
