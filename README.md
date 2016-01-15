@@ -71,23 +71,23 @@ The [only official iRODs server Docker image](https://hub.docker.com/r/irods/ica
 ```bash
 docker run -d -p 1247:1247 --name=irods3.3.1 agaveapi/irods:3.3.1
 ```
-The `.irodsEnv` required to connect as the preconfigured 'testuser' is:
+The `.irodsEnv` required to connect as the preconfigured 'rods' administrator user is:
 ```
-irodsUserName testuser
+irodsUserName rods
 irodsHost <your_docker_ip>
 irodsPort 1247
 irodsZone iplant
 ```
-The password for 'testuser' is 'testuser'.
+The password for 'rods' is 'rods'.
 
 ##### Test connection
 ```bash
-docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:<tag> ils
+docker run -it -e IRODS_USERNAME="rods" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="rods" wtsi-hgi/baton:<tag> ils
 ```
 
 ##### Query with baton
 ```bash
-docker run -it -e IRODS_USERNAME="testuser" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="testuser" wtsi-hgi/baton:<tag> <baton_query>
+docker run -it -e IRODS_USERNAME="rods" -e IRODS_HOST=<your_docker_ip> -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="rods" wtsi-hgi/baton:<tag> <baton_query>
 ```
 
 ## Debugging
