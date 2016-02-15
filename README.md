@@ -2,7 +2,15 @@
 [baton](https://github.com/wtsi-npg/baton) in a [Docker](https://www.docker.com/) container.
 
 
+## Docker Hub
+A Docker Hub hosted version of this Docker image is available at: [https://hub.docker.com/r/mercury/baton/](https://hub.docker.com/r/mercury/baton/).
+
+Please note that the tag to use for the Docker Hub image is *mercury/baton* opposed to *wtsi-hgi/baton*.
+
+
 ## Building the container
+You will only need to explicitly build the container if you are not planning on using the Docker Hub repository.
+
 ### Variants
 #### Hard-coded
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
@@ -17,8 +25,8 @@ To build a custom version of baton, ``BRANCH`` and ``REPOSITORY`` must be given 
 docker build -t wtsi-hgi/baton:<tag> -f <batonVariant>/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
 
 # e.g.
-docker build -t wtsi-hgi/baton:0.16.1 -f 0.16.1/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
-docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1 -f custom/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
+docker build -t wtsi-hgi/baton:0.16.1-with-irods-3.3.1 -f 0.16.1/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
+docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1-with-irods-3.3.1 -f custom/irods-3.3.1/Dockerfile github.com/wtsi-hgi/docker-baton.git
 ```
 
 #### Locally
@@ -27,8 +35,8 @@ From the repository's root directory:
 docker build -t wtsi-hgi/baton:<tag> -f <batonVariant>/irods-3.3.1/Dockerfile .
 
 # e.g.
-docker build -t wtsi-hgi/baton:0.16.1 -f 0.16.1/irods-3.3.1/Dockerfile .
-docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1 -f custom/irods-3.3.1/Dockerfile .
+docker build -t wtsi-hgi/baton:custom-0.16.1-with-irods-3.3.1 -f 0.16.1/irods-3.3.1/Dockerfile .
+docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com/wtsi-npg/baton.git -t wtsi-hgi/baton:custom-0.16.1-with-irods-3.3.1 -f custom/irods-3.3.1/Dockerfile .
 ```
 
 Alternatively, use the convenience script:
@@ -44,7 +52,7 @@ Alternatively, use the convenience script:
 docker run -it -e IRODS_USERNAME=<username> -e IRODS_HOST=<host> -e IRODS_PORT=<port> -e IRODS_ZONE=<zone> -e IRODS_PASSWORD=<password> wtsi-hgi/baton:<tag> <baton_command>
 
 # e.g.
-docker run -it -e IRODS_USERNAME="myuser" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="myzone" -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton:0.16.1 baton
+docker run -it -e IRODS_USERNAME="rods" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="rods" wtsi-hgi/baton:0.16.1-with-irods-3.3.1 baton
 ```
 
 #### Suppling configuration by mounting them
@@ -52,7 +60,7 @@ docker run -it -e IRODS_USERNAME="myuser" -e IRODS_HOST="192.168.99.100" -e IROD
 docker run -it -v <local_directory>:/root/.irods -e IRODS_PASSWORD=<password> wtsi-hgi/baton:<tag> <baton_command>
 
 # e.g.
-docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton:0.16.1 baton
+docker run -it -v /home/you/.irods:/root/.irods -e IRODS_PASSWORD="mypassword" wtsi-hgi/baton:0.16.1-with-irods-3.3.1 baton
 ```
 
 #### Notes
