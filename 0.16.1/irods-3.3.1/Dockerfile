@@ -40,7 +40,8 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 # is changed so that files under development are imported using COPY).
 WORKDIR /tmp
 RUN git clone --depth 1 https://github.com/wtsi-hgi/docker-baton.git
-RUN cp docker-baton/patchset $PATCHSET
+RUN cp -r docker-baton/patchset $PATCHSET
+RUN mkdir $SCRIPTS
 RUN cp docker-baton/setup.sh $SCRIPTS/setup.sh
 
 # Fetch dependencies
@@ -81,7 +82,6 @@ RUN make install
 RUN mkdir -p $(dirname $IRODS_SETTINGS)
 
 # Setup entry script
-RUN mkdir $SCRIPTS
 WORKDIR $SCRIPTS
 ENTRYPOINT ["./setup.sh"]
 CMD ["bash"]
