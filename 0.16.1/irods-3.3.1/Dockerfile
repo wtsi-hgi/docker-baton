@@ -35,9 +35,11 @@ ENV IRODS_VERSION 3.3.1
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # Docker Hub assumes that the Dockerfile is in the project root. Therefore cannot COPY common files in without
-# duplicating them in all of the version directories. Instead will get the files from GitHub, the downside of which is
-# that development of the copied scripts becomes coupled to GitHub.
-RUN git clone git@github.com:wtsi-hgi/docker-baton.git
+# duplicating them in all of the version directories (Docker does not follow symlinks). Instead will get the files from
+# GitHub, the downside of which is that development of the copied scripts becomes coupled to GitHub (unless this script
+# is changed so that files under development are imported using COPY).
+WORKDIR /tmp
+RUN git clone --depth 1 https://github.com/wtsi-hgi/docker-baton.git
 RUN cp docker-baton/patchset $PATCHSET
 RUN cp docker-baton/setup.sh $SCRIPTS/setup.sh
 
@@ -51,14 +53,13 @@ RUN git clone --depth 1 --branch 0.16.1 https://github.com/wtsi-npg/baton.git
 # baton also requires a bunch of Perl modules
 RUN cpanm JSON List::AllUtils
 
-# Patch and Build iRODS
+# Patch and build iRODS
 WORKDIR $IRODS
 RUN patch scripts/perl/configure.pl $PATCHSET/iRODS-configure.diff
 RUN patch lib/Makefile $PATCHSET/iRODS-lib-Makefile.diff
 RUN perl scripts/perl/configure.pl
 RUN make libs
-# icommands are not required for baton but may be useful in debugging iRODS
-# server connection issues
+# icommands are not required for baton but may be useful in debugging iRODS server connection issues
 RUN make icommands
 ENV PATH $PATH:$IRODS/clients/icommands/bin
 
