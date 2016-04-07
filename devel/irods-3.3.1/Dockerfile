@@ -17,6 +17,7 @@ RUN /tmp/install.sh
 # TODO: There is probably a better way of capturing these from the install script
 ENV IRODS_SETTINGS /root/.irods/.irodsEnv
 ENV PATH $PATH:/software/irods-legacy/iRODS/clients/icommands/bin
+ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # Setup entry script
 ENTRYPOINT ["/scripts/setup.sh"]

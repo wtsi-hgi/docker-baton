@@ -81,7 +81,7 @@ baton and iRODS, producing a set of binaries that (in most cases) will act in ex
 The [only official iRODs server Docker image](https://hub.docker.com/r/irods/icat/) is for iRODs version 4.0.3. However,
 this [iRODs version 3.3.1 server Docker image](https://hub.docker.com/r/mercury/icat/) can be used.
 ```bash
-docker run -d -p 1247:1247 --name=irods3.3.1 agaveapi/irods:3.3.1
+docker run -d -p 1247:1247 --name=irods3.3.1 mercury/icat:3.3.1
 ```
 The `.irodsEnv` required to connect as the preconfigured 'rods' administrator user is:
 ```
