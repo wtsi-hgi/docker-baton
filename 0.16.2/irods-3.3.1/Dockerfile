@@ -6,7 +6,11 @@ ENV REPOSITORY https://github.com/wtsi-npg/baton.git
 ENV BRANCH 0.16.2
 
 # Run setup script
-ADD custom/irods-3.3.1/install.sh /tmp
+# XXX: Dockerhub expects all required build content to be within the same directory as the Dockerfile - there is no -f
+# option! Therefore, either install.sh is replicated for each version or this horrible solution is used. The summary is
+# that DockerHub was not designed to be used in the intended way.
+ADD https://raw.githubusercontent.com/wtsi-hgi/docker-baton/master/custom/irods-3.3.1/install.sh /tmp
+RUN chmod 700 /tmp/install.sh
 RUN /tmp/install.sh
 
 # Required environment setting
