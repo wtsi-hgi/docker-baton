@@ -43,8 +43,9 @@ docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com
 
 Alternatively, use the convenience script:
 ```bash
-./scripts/build.sh branch [repository=https://github.com/wtsi-npg/baton]
+./scripts/build.sh <branch> [<https://github.com/repository/baton>]
 ```
+(Defaults to using branches from the [wtsi-npg baton repository](https://github.com/wtsi-npg/baton).)
 
 
 ## Using the container
