@@ -15,6 +15,7 @@ You will only need to explicitly build the container if you are not planning on 
 #### Hard-coded
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
 - [baton version 0.16.2, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
+- [baton development ("devel") branch, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
 
 #### Custom
 To build a custom version of baton, ``BRANCH`` and ``REPOSITORY`` must be given as [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg).
