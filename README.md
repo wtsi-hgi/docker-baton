@@ -14,6 +14,7 @@ You will only need to explicitly build the container if you are not planning on 
 ### Variants
 #### Hard-coded
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
+- [baton version 0.16.2, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
 
 #### Custom
 To build a custom version of baton, ``BRANCH`` and ``REPOSITORY`` must be given as [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg).
@@ -75,7 +76,8 @@ baton and iRODS, producing a set of binaries that (in most cases) will act in ex
 
 
 ### Using with a containerised instance of iRODS
-The [only official iRODs server Docker image](https://hub.docker.com/r/irods/icat/) is for iRODs version 4.0.3. However, the [iRODs version 3.3.1 server Docker image](https://hub.docker.com/r/agaveapi/irods/) created by [agaveapi](https://hub.docker.com/u/agaveapi/) can be used.
+The [only official iRODs server Docker image](https://hub.docker.com/r/irods/icat/) is for iRODs version 4.0.3. However,
+this [iRODs version 3.3.1 server Docker image](https://hub.docker.com/r/mercury/icat/) can be used.
 ```bash
 docker run -d -p 1247:1247 --name=irods3.3.1 agaveapi/irods:3.3.1
 ```
