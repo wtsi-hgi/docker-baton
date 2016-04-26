@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -eu -o pipefail
+
 logLocation="log"
 
 function exitWithError {
