@@ -6,7 +6,7 @@ BATON_REPOSITORY=$1
 BATON_BRANCH=$2
 
 # Environment variables for use in build
-IRODS_SETTINGS=/root/.irods
+IRODS_SETTINGS_DIRECTORY=/root/.irods
 RENCI_URL=ftp://ftp.renci.org
 IRODS_VERSION=4.1.8
 PLATFORM=ubuntu14
@@ -47,7 +47,7 @@ wget ${RENCI_URL}/pub/irods/releases/${IRODS_VERSION}/${PLATFORM}/irods-dev-${IR
 dpkg -i irods-icat-${IRODS_VERSION}-${PLATFORM}-x86_64.deb irods-database-plugin-postgres-${PG_PLUGIN_VERSION}-${PLATFORM}-x86_64.deb 2> /dev/null || true
 apt-get -f -y install
 dpkg -i irods-runtime-${IRODS_VERSION}-${PLATFORM}-x86_64.deb irods-dev-${IRODS_VERSION}-${PLATFORM}-x86_64.deb
-mkdir -p $IRODS_SETTINGS
+mkdir -p $IRODS_SETTINGS_DIRECTORY
 
 # Install jansson
 git clone --depth 1 --branch v2.7 https://github.com/akheron/jansson.git jansson

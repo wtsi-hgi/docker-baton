@@ -11,4 +11,4 @@ ADD setup.sh .
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Setup entry script
-CMD "setup.sh"
+CMD "./setup.sh"
