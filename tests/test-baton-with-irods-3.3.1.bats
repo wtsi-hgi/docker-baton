@@ -1,6 +1,13 @@
 #!/usr/bin/env bats
-TEST_LOCATION="../devel/irods-3.3.1"
-SUT_NAME="baton devel with iRODS 3.3.1"
+if [[ -z ${TEST_LOCATION} ]]
+then
+    >&2 echo "The test location must be set via the 'TEST_LOCATION' environmental variable"
+    exit 1
+elif [[ -z ${SUT_NAME} ]]
+then
+    >&2 echo "The SUT name must be set via the 'SUT_NAME' environmental variable"
+    exit 1
+fi
 
 load common
 load irods-3-common
