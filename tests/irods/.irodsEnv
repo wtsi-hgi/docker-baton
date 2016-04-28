@@ -1,0 +1,4 @@
+irodsHost icat
+irodsPort 1247
+irodsUserName rods
+irodsZone iplant
