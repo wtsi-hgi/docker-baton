@@ -9,8 +9,10 @@ WORKDIR /scripts
 ADD setup.sh .
 
 # Required environment setting
+ENV IRODS_SETTINGS /root/.irods/.irodsEnv
 ENV PATH $PATH:/software/irods-legacy/iRODS/clients/icommands/bin
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Setup entry script
-CMD "./setup.sh"
+ENTRYPOINT "./setup.sh"
+CMD "bash"
