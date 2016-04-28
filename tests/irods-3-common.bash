@@ -24,7 +24,7 @@ then
         exit 1
     fi
     # Always rebuild base image to enure up to date image is used
-    docker build -t ${BATON_WITH_IRODS_3_BASE_IMAGE_NAME} ${BATON_WITH_IRODS_3_BASE_IMAGE_LOCATION} &> /dev/null
+    docker build -q -t ${BATON_WITH_IRODS_3_BASE_IMAGE_NAME} ${BATON_WITH_IRODS_3_BASE_IMAGE_LOCATION} 1>&2
 
     # Build baton image and export to make persistent
     export baton_image=$(setup_baton_image ${TEST_LOCATION})

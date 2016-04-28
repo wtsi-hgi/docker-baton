@@ -14,5 +14,5 @@ ENV PATH $PATH:/software/irods-legacy/iRODS/clients/icommands/bin
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Setup entry script
-ENTRYPOINT "./setup.sh"
-CMD "bash"
+ENTRYPOINT ["./setup.sh"]
+CMD ["bash"]

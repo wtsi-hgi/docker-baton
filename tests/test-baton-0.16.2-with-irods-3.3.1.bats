@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
-TEST_LOCATION="../0.16.1/irods-3.3.1"
-SUT_NAME="baton 0.16.1 with iRODS 3.3.1"
+TEST_LOCATION="../0.16.2/irods-3.3.1"
+SUT_NAME="baton 0.16.2 with iRODS 3.3.1"
 
 load common
 load irods-3-common

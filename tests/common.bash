@@ -8,7 +8,7 @@ setup_baton_image() {
         exit 1
     fi
     local image_name="baton-image-test:$(uuidgen | awk '{print tolower($0)}')"
-    docker build -t ${image_name} $1 1>&2
+    docker build -q -t ${image_name} $1 1>&2
     echo ${image_name}
 }
 
