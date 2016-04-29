@@ -7,6 +7,7 @@ ADD patchset /tmp/patchset
 RUN mkdir /scripts
 WORKDIR /scripts
 ADD setup.sh .
+ADD write-settings.sh .
 
 # Required environment setting
 ENV IRODS_SETTINGS /root/.irods/.irodsEnv
