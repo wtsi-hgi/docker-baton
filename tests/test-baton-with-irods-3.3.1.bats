@@ -22,12 +22,13 @@ setup() {
 }
 
 @test "${SUT_NAME} - icommands installed" {
-    docker run -e DEBUG=1 ${baton_image} ils -h
+    out=$(docker run -e DEBUG=1 ${baton_image} ils -h)
+    >&2 echo ${out}
     [ "$?" -eq 0 ]
 }
 
 @test "${SUT_NAME} - jq installed" {
-    docker run -e DEBUG=1 ${baton_image} baton
+    out=$(docker run -e DEBUG=1 ${baton_image} baton)
     [ "$?" -eq 0 ]
 }
 
@@ -38,6 +39,7 @@ setup() {
         --link ${irods_container}:icat \
         ${baton_image} \
         bash -c "jq -n '{collection: \"/\"}' | baton-list --unsafe")
+    >&2 echo ${out}
     [ "$?" -eq 0 ]
 }
 
@@ -51,6 +53,7 @@ setup() {
         --link ${irods_container}:icat \
         ${baton_image} \
         bash -c "jq -n '{collection: \"/\"}' | baton-list --unsafe")
+    >&2 echo ${out}
     [ "$?" -eq 0 ]
 }
 
@@ -61,6 +64,7 @@ setup() {
         --link ${irods_container}:icat \
         ${baton_image} \
         ils)
+    >&2 echo ${out}
     [ "$?" -eq 0 ]
 }
 

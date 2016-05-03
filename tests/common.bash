@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 exit_signalled=false
 
 setup_baton_image() {

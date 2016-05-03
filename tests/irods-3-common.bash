@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 BATON_WITH_IRODS_3_BASE_IMAGE_NAME="mercury/baton:base-for-baton-with-irods-3.3.1"
 BATON_WITH_IRODS_3_BASE_IMAGE_LOCATION="../base/irods-3.3.1"
 
@@ -9,11 +11,39 @@ IRODS_3_USERNAME="rods"
 IRODS_3_ZONE="iplant"
 IRODS_3_PASSWORD="rods"
 
+IRODS_3_STARTUP_TIME_LIMIT=0
+IRODS_3_START_CONFIRMATION="exited: irods (exit status 0; expected)"
+
+_timelimit() {
+    if which timeout -eq 0
+    then
+        timeout "$@"
+    else
+        echo "$@" >> file
+        perl -e 'alarm shift; exec @ARGV' "$@";
+    fi
+}
+
 setup_irods_3-3-1() {
     local container_name=$(uuidgen | awk '{print tolower($0)}')
     docker run -d --name=${container_name} "mercury/icat:3.3.1" > /dev/null
-    grep -q "exited: irods (exit status 0; expected)" <(docker logs -f ${container_name})
-    echo ${container_name}
+
+    if which timeout -eq 0
+    then
+        timeout ${IRODS_3_STARTUP_TIME_LIMIT} grep -q ${IRODS_3_START_CONFIRMATION} <(docker logs -f ${container_name})
+    else
+        echo "$@" >> file
+        perl -e 'alarm ${IRODS_3_STARTUP_TIME_LIMIT}; exec grep -q "${IRODS_3_START_CONFIRMATION}" <(docker logs -f ${container_name})'
+    fi
+
+    if [ $? -eq 0 ]
+    then
+        echo ${container_name}
+    else
+        echo "Resetting" >> file
+        docker rm -f ${container_name}
+        setup_irods_3-3-1
+    fi
 }
 
 if [ -z ${baton_image} ]

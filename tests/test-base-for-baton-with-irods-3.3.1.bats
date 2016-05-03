@@ -10,6 +10,7 @@ setup() {
 
 @test "${SUT_NAME} - install script added" {
     out=$(docker run -e DEBUG=1 ${base_image} cat /tmp/install.sh)
+    >&2 echo ${out}
     [ "$?" -eq 0 ]
 }
 
