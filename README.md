@@ -12,6 +12,8 @@ ones linked to a branch) are not hosted on Dockerhub as the commit used is deter
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
 - [baton version 0.16.2, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
 - [baton version 0.16.2, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-4.1.8).
+- [baton version 0.16.3-pre, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3-pre/irods-3.3.1).
+- [baton version 0.16.3-pre, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3-pre/irods-4.1.8).
 - [baton development ("devel") branch, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
 - [baton development ("devel") branch, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.4.8) (not on Dockerhub).
 
@@ -51,7 +53,8 @@ docker build --build-arg BRANCH=0.16.1 --build-arg REPOSITORY=https://github.com
 docker run -it -e IRODS_USERNAME=<username> -e IRODS_HOST=<host> -e IRODS_PORT=<port> -e IRODS_ZONE=<zone> -e IRODS_PASSWORD=<password> mercury/baton:<tag> <baton_command>
 
 # e.g.
-docker run -it -e IRODS_USERNAME="rods" -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="rods" mercury/baton:0.16.1-with-irods-3.3.1 baton
+docker run -it -e IRODS_HOST="192.168.99.100" -e IRODS_PORT=1247 -e IRODS_USERNAME="rods" -e IRODS_ZONE="iplant" -e IRODS_PASSWORD="rods" mercury/baton:0.16.1-with-irods-3.3.1 baton
+docker run -it --link icat:icat -e IRODS_HOST="icat" -e IRODS_PORT=1247 -e IRODS_USERNAME="rods" -e IRODS_ZONE="testZone" -e IRODS_PASSWORD="irods123" mercury/baton:0.16.2-with-irods-4.1.8 baton
 ```
 
 #### Suppling configuration by mounting them
@@ -77,8 +80,8 @@ way as if baton was installed on the test machine.
 
 
 ### Using with a containerised instance of iRODS
-If you wish to try baton with a test instance of iRODS, [these iRODs version 3.3.1 and 4.1.8 server Docker 
-images](https://hub.docker.com/r/mercury/icat/) can be used.
+If you wish to try baton with a test instance of iRODS, [these iRODs version 3.3.1 and 4.1.8 server Docker images]
+(https://hub.docker.com/r/mercury/icat/) can be used.
 
 
 ## Debugging
