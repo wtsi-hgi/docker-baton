@@ -11,7 +11,7 @@ ADD write-settings.sh .
 
 # Required environment setting
 ENV IRODS_SETTINGS /root/.irods/.irodsEnv
-ENV PATH $PATH:/software/irods-legacy/iRODS/clients/icommands/bin
+ENV PATH ${PATH}:/software/irods-legacy/iRODS/clients/icommands/bin
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Setup entry script

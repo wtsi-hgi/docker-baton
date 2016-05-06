@@ -3,7 +3,7 @@ MAINTAINER "Colin Nolan" <hgi@sanger.ac.uk>
 
 # Specify baton version
 ENV REPOSITORY https://github.com/wtsi-npg/baton.git
-ENV BRANCH 0.16.3-pre
+ENV BRANCH 0.16.3
 
 # Run setup script
-RUN /tmp/install.sh $REPOSITORY $BRANCH
+RUN /tmp/install.sh ${REPOSITORY} ${BRANCH}

@@ -12,8 +12,8 @@ ones linked to a branch) are not hosted on Dockerhub as the commit used is deter
 - [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
 - [baton version 0.16.2, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
 - [baton version 0.16.2, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-4.1.8).
-- [baton version 0.16.3-pre, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3-pre/irods-3.3.1).
-- [baton version 0.16.3-pre, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3-pre/irods-4.1.8).
+- [baton version 0.16.3, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-3.3.1).
+- [baton version 0.16.3, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-4.1.8).
 - [baton development ("devel") branch, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
 - [baton development ("devel") branch, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.4.8) (not on Dockerhub).
 
