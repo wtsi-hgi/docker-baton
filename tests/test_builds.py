@@ -1,12 +1,13 @@
 import os
 import unittest
+from time import sleep
 from typing import List, Dict
 from typing import Tuple
 
 from testwithbaton._baton import build_baton_docker
 from testwithbaton._common import create_client
 from testwithbaton.irods._api import IrodsVersion, get_static_irods_server_controller
-from testwithbaton.models import BatonImage
+from testwithbaton.models import BatonImage, ContainerisedIrodsServer
 from testwithbaton.models import IrodsServer
 
 from tests.common import create_temp_docker_mountable_directory
@@ -16,15 +17,15 @@ _PROJECT_ROOT = "%s/.." % os.path.dirname(os.path.realpath(__file__))
 _started_irods_servers = dict()     # type: Dict[IrodsVersion, IrodsServer]
 
 
-class _TestBuild(unittest.TestCase):
+class _TestDockerizedBaton(unittest.TestCase):
     """
-    TODO
+    Tests for a Dockerised baton setup.
     """
     @staticmethod
     def _build_images(images: List[Tuple[str, str]]):
         """
-        TODO
-        :param images:
+        Builds the given named images in order.
+        :param images: the named images to build
         """
         for tag, directory in images:
             client = create_client()
@@ -32,11 +33,14 @@ class _TestBuild(unittest.TestCase):
             build_baton_docker(client, baton_image)
 
     @staticmethod
-    def get_irods_server(irods_version: IrodsVersion) -> IrodsServer:
+    def get_irods_server(irods_version: IrodsVersion) -> ContainerisedIrodsServer:
         """
-        TODO
-        :param irods_version:
-        :return:
+        Gets an iRODS server of the given version.
+
+        This server is NOT isolated between test cases. Therefore it should be treated as read-only. It should also not
+        be stopped at teardown.
+        :param irods_version: the iRODS version
+        :return: the containerised server
         """
         global _started_irods_servers
         if irods_version not in _started_irods_servers:
@@ -68,18 +72,34 @@ class _TestBuild(unittest.TestCase):
 
         settings_directory = create_temp_docker_mountable_directory()
         IrodsController = get_static_irods_server_controller(self._irods_version)
-        IrodsController.write_connection_settings("%s/.irods" % settings_directory, irods_server)
+        IrodsController.write_connection_settings("%s/.irodsEnv" % settings_directory, irods_server)
         host_config = create_client().create_host_config(binds={
             settings_directory: {
                 "bind": "/root/.irods",
                 "mode": "rw"
             }
+        }, links={
+            irods_server.host: irods_server.host
         })
 
-        print(self._run(command="ls -altr /root/.irods", environment={"DEBUG": 1}, host_config=host_config, stderr=False))
-        response = self._run(command="ls", environment={"PASSWORD": 1}, host_config=host_config)
-        print(response)
-        self.assertFalse(True)
+        user = irods_server.users[0]
+        response = self._run(command="ils", environment={"IRODS_PASSWORD": user.password}, host_config=host_config)
+        self.assertEqual(response, "/%s/home/%s:" % (user.zone, user.username))
+
+    def test_baton_can_connect_to_irods_with_setting_parameters(self):
+        irods_server = self.get_irods_server(self._irods_version)
+        host_config = create_client().create_host_config(links={
+            irods_server.host: irods_server.host
+        })
+        user = irods_server.users[0]
+        response = self._run(command="ils", environment={
+            "IRODS_HOST": irods_server.host,
+            "IRODS_PORT": irods_server.port,
+            "IRODS_USERNAME": user.username,
+            "IRODS_ZONE": user.zone,
+            "IRODS_PASSWORD": user.password
+        }, host_config=host_config)
+        self.assertEqual(response, "/%s/home/%s:" % (user.zone, user.username))
 
     def _run(self, stderr=True, **kwargs) -> str:
         """
@@ -98,27 +118,24 @@ class _TestBuild(unittest.TestCase):
         return "".join([line.decode("utf-8") for line in log_generator]).strip()
 
 
-
-
-
-
-class TestBuild0_16_1_WithIrods3_3_1(_TestBuild):
+class TestDockerizedBaton0_16_1_WithIrods3_3_1(_TestDockerizedBaton):
     """
-    TODO
+    Tests for Dockerized baton version 0.16.1 with iRODS version 3.3.1.
     """
     _IRODS_VERSION = IrodsVersion.v3_3_1
     _IMAGES = [
         ("mercury/baton:base-for-baton-with-irods-3.3.1", "base/irods-3.3.1"),
-        ("mercury/baton:0.16.2-with-irods-3.3.1", "0.16.1/irods-3.3.1")
+        ("mercury/baton:0.16.1-with-irods-3.3.1", "0.16.1/irods-3.3.1")
     ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(
-            TestBuild0_16_1_WithIrods3_3_1._IRODS_VERSION, TestBuild0_16_1_WithIrods3_3_1._IMAGES, *args, **kwargs)
-        # logging.root.setLevel(logging.DEBUG)
+            TestDockerizedBaton0_16_1_WithIrods3_3_1._IRODS_VERSION,
+            TestDockerizedBaton0_16_1_WithIrods3_3_1._IMAGES,
+            *args, **kwargs)
 
 
-del _TestBuild
+del _TestDockerizedBaton
 
 if __name__ == "__main__":
     unittest.main()
