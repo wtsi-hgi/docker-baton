@@ -1,0 +1,2 @@
+git+https://github.com/wtsi-hgi/test-with-baton.git@c314eb8184a87f8643558f37c06c9c50765aa1a4#egg=testwithbaton
+docker-py==1.8.1
