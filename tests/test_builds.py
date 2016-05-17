@@ -1,15 +1,16 @@
 import os
 import unittest
-from time import sleep
 from typing import List, Dict
 from typing import Tuple
 
+from inflection import camelize
 from testwithbaton._baton import build_baton_docker
 from testwithbaton._common import create_client
 from testwithbaton.irods._api import IrodsVersion, get_static_irods_server_controller
 from testwithbaton.models import BatonImage, ContainerisedIrodsServer
 from testwithbaton.models import IrodsServer
 
+from tests.builds_to_test import builds_to_test
 from tests.common import create_temp_docker_mountable_directory
 
 _PROJECT_ROOT = "%s/.." % os.path.dirname(os.path.realpath(__file__))
@@ -72,7 +73,11 @@ class _TestDockerizedBaton(unittest.TestCase):
 
         settings_directory = create_temp_docker_mountable_directory()
         IrodsController = get_static_irods_server_controller(self._irods_version)
-        IrodsController.write_connection_settings("%s/.irodsEnv" % settings_directory, irods_server)
+        # XXX: This is rather hacky - it should be possible to get the name from the iRODS controller
+        if self._irods_version == IrodsVersion.v3_3_1:
+            IrodsController.write_connection_settings("%s/.irodsEnv" % settings_directory, irods_server)
+        else:
+            IrodsController.write_connection_settings("%s/irods_environment.json" % settings_directory, irods_server)
         host_config = create_client().create_host_config(binds={
             settings_directory: {
                 "bind": "/root/.irods",
@@ -118,24 +123,29 @@ class _TestDockerizedBaton(unittest.TestCase):
         return "".join([line.decode("utf-8") for line in log_generator]).strip()
 
 
-class TestDockerizedBaton0_16_1_WithIrods3_3_1(_TestDockerizedBaton):
-    """
-    Tests for Dockerized baton version 0.16.1 with iRODS version 3.3.1.
-    """
-    _IRODS_VERSION = IrodsVersion.v3_3_1
-    _IMAGES = [
-        ("mercury/baton:base-for-baton-with-irods-3.3.1", "base/irods-3.3.1"),
-        ("mercury/baton:0.16.1-with-irods-3.3.1", "0.16.1/irods-3.3.1")
-    ]
+for _setup in builds_to_test:
+    test_image = _setup[-1]
+    test_class_name_postfix = camelize(test_image[0].split(":")[-1].replace("-", "_")).replace(".", "_")
+    class_name = "%s%s" % (_TestDockerizedBaton.__name__[1:], test_class_name_postfix)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(
-            TestDockerizedBaton0_16_1_WithIrods3_3_1._IRODS_VERSION,
-            TestDockerizedBaton0_16_1_WithIrods3_3_1._IMAGES,
-            *args, **kwargs)
+    def init(self, *args, **kwargs):
+        base_image = type(self)._SETUP[0]
+        irods_version = IrodsVersion["v%s" % base_image[1].split("-")[-1].replace(".", "_")]
+        super(type(self), self).__init__(irods_version, type(self)._SETUP, *args, **kwargs)
+
+    globals()[class_name] = type(
+        class_name,
+        (_TestDockerizedBaton, ),
+        {
+            "_SETUP": _setup,
+            "__init__": init
+        }
+    )
 
 
+# Stop unittest from running the abstract base test
 del _TestDockerizedBaton
+
 
 if __name__ == "__main__":
     unittest.main()
