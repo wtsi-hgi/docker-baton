@@ -21,4 +21,4 @@ install:
   - curl $(sed -rn "s|^git\+https://github.com/(.+).git@(.+)#egg=.+$|https://raw.githubusercontent.com/\1/\2/requirements.txt|p" test_requirements.txt) | xargs pip install
 
 script:
-  - nosetests -v
+  - PYTHONPATH=. python3 -m unittest -v tests/test_builds.py

@@ -1,3 +1,5 @@
+import logging
+
 _BATON_WITH_IRODS_3_3_1_BASE = ("mercury/baton:base-for-baton-with-irods-3.3.1", "base/irods-3.3.1")
 _BATON_WITH_IRODS_4_1_8_BASE = ("mercury/baton:base-for-baton-with-irods-4.1.8", "base/irods-4.1.8")
 
