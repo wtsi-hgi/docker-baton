@@ -1,4 +1,4 @@
-git+https://github.com/wtsi-hgi/test-with-baton.git@c314eb8184a87f8643558f37c06c9c50765aa1a4#egg=testwithbaton
+git+https://github.com/wtsi-hgi/test-with-baton.git@8b478a316f4941f9cd2e041013ff71473643b9e7#egg=testwithbaton
 docker-py==1.8.1
 inflection==0.3.1
 nose==1.3.7

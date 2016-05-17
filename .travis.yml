@@ -18,6 +18,7 @@ before_install:
 
 install:
   - pip install -r test_requirements.txt
+  - curl $(sed -rn "s|^git\+https://github.com/(.+).git@(.+)#egg=.+$|https://raw.githubusercontent.com/\1/\2/requirements.txt|p" test_requirements.txt) | xargs pip install
 
 script:
   - nosetests -v
