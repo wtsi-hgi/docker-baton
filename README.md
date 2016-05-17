@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wtsi-hgi/docker-baton.svg)](https://travis-ci.org/wtsi-hgi/docker-baton)
+
 # baton in Docker
 [baton](https://github.com/wtsi-npg/baton) in a [Docker](https://www.docker.com/) container.
 
