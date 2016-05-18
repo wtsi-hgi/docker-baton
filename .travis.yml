@@ -1,0 +1,24 @@
+language: python
+
+python:
+  - 3.5
+
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_HOST="tcp://127.0.0.1:2375"
+    - DOCKER_TLS_VERIFY=""
+    - DOCKER_CERT_PATH=""
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y -o Dpkg::Options::=--force-confdef docker-engine
+
+install:
+  - pip install -r test_requirements.txt
+  - curl $(sed -rn "s|^git\+https://github.com/(.+).git@(.+)#egg=.+$|https://raw.githubusercontent.com/\1/\2/requirements.txt|p" test_requirements.txt) | xargs pip install
+
+script:
+  - PYTHONPATH=. python3 -m unittest -v tests/test_builds.py
