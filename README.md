@@ -11,13 +11,20 @@ Dockerhub as it does not support the use of build arguments. The versions that a
 ones linked to a branch) are not hosted on Dockerhub as the commit used is determined at build time.
 
 ### Hard-coded
-- [baton version 0.16.1, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
-- [baton version 0.16.2, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
-- [baton version 0.16.2, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-4.1.8).
-- [baton version 0.16.3, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-3.3.1).
-- [baton version 0.16.3, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-4.1.8).
-- [baton development ("devel") branch, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
-- [baton development ("devel") branch, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.4.8) (not on Dockerhub).
+- baton version 0.16.1:
+    - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.1/irods-3.3.1).
+- baton version 0.16.2:
+    - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-3.3.1).
+    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.2/irods-4.1.8).
+- baton version 0.16.3:
+    - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-3.3.1).
+    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.3/irods-4.1.8).
+- baton version 0.16.4:
+    - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-3.3.1).
+    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-4.1.8).    
+- baton development ("devel") branch:
+    - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
+    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.4.8) (not on Dockerhub).
 
 ### Custom
 To build a custom version of baton, ``BRANCH`` (either tag or branch name) and ``REPOSITORY`` must be given as 
