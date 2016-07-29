@@ -13,25 +13,6 @@ IRODS_VERSION=3.3.1
 export IRODS_HOME=/software/irods-legacy/iRODS
 export LD_LIBRARY_PATH=/usr/local/lib
 
-apt-get update
-apt-get install -y --no-install-recommends \
-    git \
-    gcc \
-    g++ \
-    perl \
-    cpanminus \
-    make \
-    autoconf \
-    automake \
-    libtool \
-    pkg-config \
-    patch \
-    ca-certificates \
-    libboost-dev \
-    libssl-dev \
-    jq \
-    perl-doc
-
 # Make temp working directory
 mkdir -p ${TEMP_WORKING_DIRECTORY}
 

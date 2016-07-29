@@ -13,26 +13,6 @@ PLATFORM=ubuntu14
 PG_PLUGIN_VERSION=1.8
 TEMP_WORKING_DIRECTORY=/tmp/installing
 
-apt-get update
-apt-get install -y --no-install-recommends \
-    wget \
-    git \
-    gcc \
-    g++ \
-    perl \
-    cpanminus \
-    make \
-    autoconf \
-    automake \
-    libtool \
-    pkg-config \
-    patch \
-    ca-certificates \
-    libboost-dev \
-    libssl-dev \
-    jq \
-    perl-doc
-
 # Make temp working directory
 mkdir -p ${TEMP_WORKING_DIRECTORY}
 
