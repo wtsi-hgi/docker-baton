@@ -7,8 +7,7 @@ from inflection import camelize
 from testwithbaton._baton import build_baton_docker
 from testwithbaton._common import create_client
 from testwithbaton.irods._api import IrodsVersion, get_static_irods_server_controller
-from testwithbaton.models import BatonImage, ContainerisedIrodsServer
-from testwithbaton.models import IrodsServer
+from testwithbaton.models import BatonImage, ContainerisedIrodsServer, IrodsServer
 
 from tests.builds_to_test import builds_to_test
 from tests.common import create_temp_docker_mountable_directory
