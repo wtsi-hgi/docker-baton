@@ -22,15 +22,18 @@ ones linked to a branch) are not hosted on Dockerhub as the commit used is deter
 - baton version 0.16.4:
     - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-3.3.1).
     - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-4.1.8).    
+    - [For iRODs version 4.1.9](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-4.1.9).
 - baton development ("devel") branch:
     - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
-    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.4.8) (not on Dockerhub).
+    - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.1.8) (not on Dockerhub).
+    - [For iRODs version 4.1.9](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.1.9) (not on Dockerhub).
 
 ### Custom
 To build a custom version of baton, ``BRANCH`` (either tag or branch name) and ``REPOSITORY`` must be given as 
 [build arguments](https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg).
 - [custom baton version, using iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/custom/irods-3.3.1) (not on Dockerhub).
 - [custom baton version, using iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/custom/irods-4.1.8) (not on Dockerhub).
+- [custom baton version, using iRODs version 4.1.9](https://github.com/wtsi-hgi/docker-baton/tree/master/custom/irods-4.1.9) (not on Dockerhub).
 
 
 ## Building the container
