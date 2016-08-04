@@ -1,5 +1,6 @@
 import os
 import unittest
+from copy import copy
 from typing import List, Dict, Optional
 from typing import Tuple
 
@@ -131,12 +132,11 @@ class _TestDockerizedBaton(unittest.TestCase):
 
 
 for _setup in builds_to_test:
-    test_image = _setup[1]
-    test_class_name_postfix = camelize(test_image[0].split(":")[-1].replace("-", "_")).replace(".", "_")
+    test_class_name_postfix = camelize(_setup[1][0].split(":")[-1].replace("-", "_")).replace(".", "_")
     class_name = "%s%s" % (_TestDockerizedBaton.__name__[1:], test_class_name_postfix)
 
     def init(self, *args, **kwargs):
-        irods_version = IrodsVersion["v%s" % test_image[1].split("-")[-1].replace(".", "_")]
+        irods_version = IrodsVersion["v%s" % type(self)._SETUP[1][1].split("-")[-1].replace(".", "_")]
         super(type(self), self).__init__(irods_version, type(self)._SETUP, *args, **kwargs)
 
     globals()[class_name] = type(
