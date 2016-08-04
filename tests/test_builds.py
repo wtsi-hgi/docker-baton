@@ -1,6 +1,6 @@
 import os
 import unittest
-from typing import List, Dict
+from typing import List, Dict, Optional
 from typing import Tuple
 
 from inflection import camelize
@@ -22,13 +22,21 @@ class _TestDockerizedBaton(unittest.TestCase):
     Tests for a Dockerised baton setup.
     """
     @staticmethod
-    def _build_images(images: List[Tuple[str, str]]):
+    def _build_image(top_level_image: Tuple[Optional[Tuple], Tuple[str, str]]):
         """
-        Builds the given named images in order.
-        :param images: the named images to build
+        Builds images bottom up, building the top level image last.
+        :param top_level_image: representation of the top level image
         """
-        for tag, directory in images:
-            client = create_client()
+        image = top_level_image
+        images = []     # type: List[Tuple[str, str]]
+        while image is not None:
+            images.insert(0, image[1])
+            image = image[0]
+
+        client = create_client()
+        for image in images:
+            tag = image[0]
+            directory = "%s/%s" % (_PROJECT_ROOT, image[1])
             baton_image = BatonImage(tag=tag, path=directory)
             build_baton_docker(client, baton_image)
 
@@ -47,13 +55,13 @@ class _TestDockerizedBaton(unittest.TestCase):
             _started_irods_servers[irods_version] = get_static_irods_server_controller(irods_version).start_server()
         return _started_irods_servers[irods_version]
 
-    def __init__(self, irods_version: IrodsVersion, images: List[Tuple[str, str]], *args, **kwargs):
+    def __init__(self, irods_version: IrodsVersion, top_level_image: Tuple[Optional[Tuple], Tuple[str, str]], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._irods_version = irods_version
-        self._images = [(tag, "%s/%s" % (_PROJECT_ROOT, directory)) for tag, directory in images]
+        self._top_level_image = top_level_image
 
     def setUp(self):
-        self._build_images(self._images)
+        type(self)._build_image(self._top_level_image)
 
     def test_baton_installed(self):
         response = self._run(command="baton", environment={"DEBUG": 1}, stderr=False)
@@ -114,7 +122,7 @@ class _TestDockerizedBaton(unittest.TestCase):
         :return: what the command put onto stdout and stderr (if applicable)
         """
         client = create_client()
-        tag = self._images[-1][0]
+        tag = self._top_level_image[1][0]
         container = client.create_container(tag, **kwargs)
         id = container.get("Id")
         client.start(id)
@@ -123,13 +131,12 @@ class _TestDockerizedBaton(unittest.TestCase):
 
 
 for _setup in builds_to_test:
-    test_image = _setup[-1]
+    test_image = _setup[1]
     test_class_name_postfix = camelize(test_image[0].split(":")[-1].replace("-", "_")).replace(".", "_")
     class_name = "%s%s" % (_TestDockerizedBaton.__name__[1:], test_class_name_postfix)
 
     def init(self, *args, **kwargs):
-        base_image = type(self)._SETUP[0]
-        irods_version = IrodsVersion["v%s" % base_image[1].split("-")[-1].replace(".", "_")]
+        irods_version = IrodsVersion["v%s" % test_image[1].split("-")[-1].replace(".", "_")]
         super(type(self), self).__init__(irods_version, type(self)._SETUP, *args, **kwargs)
 
     globals()[class_name] = type(

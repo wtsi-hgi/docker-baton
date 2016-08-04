@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euv -o pipefail
 
+if [ -z ${IRODS_VERSION+x} ];
+then
+    echo "IRODS_VERSION must be set";
+fi
+if [ -z ${PG_PLUGIN_VERSION+x} ];
+then
+    echo "PG_PLUGIN_VERSION must be set";
+fi
+
 # Settings
 BATON_REPOSITORY=$1
 BATON_BRANCH=$2
@@ -8,9 +17,7 @@ BATON_BRANCH=$2
 # Environment variables for use in build
 IRODS_SETTINGS_DIRECTORY=/root/.irods
 RENCI_URL=ftp://ftp.renci.org
-IRODS_VERSION=4.1.8
 PLATFORM=ubuntu14
-PG_PLUGIN_VERSION=1.8
 TEMP_WORKING_DIRECTORY=/tmp/installing
 
 # Make temp working directory
@@ -45,13 +52,7 @@ cd baton
 # Fixes an issue with missing ./ltmain.sh when running autoreconf
 ln -sf /usr/share/libtool/config/ltmain.sh .
 autoreconf -fvi
-# Fixes slight difference as of cdb566852a7be68fac63a1e07959e04b3eae8085
-if [ -e m4/ax_with_irods.m4 ]
-then
-    ./configure --with-irods
-else
-    ./configure
-fi
+./configure --with-irods
 make
 make install
 
