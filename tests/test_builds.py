@@ -131,8 +131,13 @@ class _TestDockerizedBaton(unittest.TestCase):
         return "".join([line.decode("utf-8") for line in log_generator]).strip()
 
 
-for _setup in builds_to_test:
-    test_class_name_postfix = camelize(_setup[1][0].split(":")[-1].replace("-", "_")).replace(".", "_")
+def setup_test_for_build(setup):
+    """
+    TODO
+    :param setup:
+    :return:
+    """
+    test_class_name_postfix = camelize(setup[1][0].split(":")[-1].replace("-", "_")).replace(".", "_")
     class_name = "%s%s" % (_TestDockerizedBaton.__name__[1:], test_class_name_postfix)
 
     def init(self, *args, **kwargs):
@@ -141,12 +146,22 @@ for _setup in builds_to_test:
 
     globals()[class_name] = type(
         class_name,
-        (_TestDockerizedBaton, ),
+        (_TestDockerizedBaton,),
         {
-            "_SETUP": _setup,
+            "_SETUP": setup,
             "__init__": init
         }
     )
+
+single_setup_tag = os.environ.get("SINGLE_TEST_SETUP")
+if single_setup_tag is None:
+    for _setup in builds_to_test:
+        setup_test_for_build(_setup)
+else:
+    for build in builds_to_test:
+        if build[1][0] == single_setup_tag:
+            setup_test_for_build(build)
+            break
 
 
 # Stop unittest from running the abstract base test
