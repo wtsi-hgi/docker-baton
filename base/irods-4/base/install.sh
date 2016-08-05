@@ -52,7 +52,13 @@ cd baton
 # Fixes an issue with missing ./ltmain.sh when running autoreconf
 ln -sf /usr/share/libtool/config/ltmain.sh .
 autoreconf -fvi
-./configure --with-irods
+# Fixes slight difference as of cdb566852a7be68fac63a1e07959e04b3eae8085
+if [ -e m4/ax_with_irods.m4 ]
+then
+    ./configure --with-irods
+else
+    ./configure
+fi
 make
 make install
 
