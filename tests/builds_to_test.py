@@ -1,3 +1,5 @@
+import logging
+
 _BATON_WITH_IRODS_3_3_1_BASE = (None, ("mercury/baton:base-for-baton-with-irods-3.3.1", "base/irods-3/3.3.1"))
 _BATON_WITH_IRODS_4_BASE = (None, ("mercury/baton:base-for-baton-with-irods-4", "base/irods-4/base"))
 _BATON_WITH_IRODS_4_1_8_BASE = (_BATON_WITH_IRODS_4_BASE, ("mercury/baton:base-for-baton-with-irods-4.1.8", "base/irods-4/4.1.8"))
@@ -17,3 +19,5 @@ builds_to_test = [
     (_BATON_WITH_IRODS_4_1_9_BASE, ("mercury/baton:devel-with-irods-4.1.8", "devel/irods-4.1.8")),
     (_BATON_WITH_IRODS_4_1_9_BASE, ("mercury/baton:devel-with-irods-4.1.9", "devel/irods-4.1.9"))
 ]
+
+logging.root.setLevel(logging.DEBUG)

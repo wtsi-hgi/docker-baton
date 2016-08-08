@@ -33,4 +33,4 @@ install:
   - curl $(sed -rn "s|^git\+https://github.com/(.+).git@(.+)#egg=.+$|https://raw.githubusercontent.com/\1/\2/requirements.txt|p" test_requirements.txt) | xargs pip install
 
 script:
-  - PYTHONPATH=. nosetests -v --exclude-test=tests.test_builds._setup_test_for_build tests/test_builds.py
+  - PYTHONPATH=. nosetests -v --exclude-test=tests.test_builds._setup_test_for_build --nologcapture tests/test_builds.py

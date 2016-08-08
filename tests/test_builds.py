@@ -1,3 +1,4 @@
+import logging
 import os
 import unittest
 from copy import copy
@@ -128,7 +129,13 @@ class _TestDockerizedBaton(unittest.TestCase):
         id = container.get("Id")
         client.start(id)
         log_generator = client.attach(id, logs=True, stream=True, stderr=stderr)
-        return "".join([line.decode("utf-8") for line in log_generator]).strip()
+        responses = []
+        for line in log_generator:
+            response = line.decode("utf-8")
+            logging.debug(response)
+            responses.append(response)
+        logging.debug("Log generator complete!")
+        return "".join(responses).strip()
 
 
 def _setup_test_for_build(setup):
