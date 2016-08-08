@@ -131,7 +131,7 @@ class _TestDockerizedBaton(unittest.TestCase):
         return "".join([line.decode("utf-8") for line in log_generator]).strip()
 
 
-def setup_test_for_build(setup):
+def _setup_test_for_build(setup):
     """
     TODO
     :param setup:
@@ -156,11 +156,11 @@ def setup_test_for_build(setup):
 single_setup_tag = os.environ.get("SINGLE_TEST_SETUP")
 if single_setup_tag is None:
     for _setup in builds_to_test:
-        setup_test_for_build(_setup)
+        _setup_test_for_build(_setup)
 else:
-    for build in builds_to_test:
-        if build[1][0] == single_setup_tag:
-            setup_test_for_build(build)
+    for _setup in builds_to_test:
+        if _setup[1][0] == single_setup_tag:
+            _setup_test_for_build(_setup)
             break
 
 
