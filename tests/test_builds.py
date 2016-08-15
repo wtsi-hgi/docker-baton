@@ -1,7 +1,9 @@
+import logging
 import os
 import unittest
 from typing import List, Dict, Optional, Tuple
 
+import atexit
 from inflection import camelize
 
 from hgicommon.docker.client import create_client
@@ -52,7 +54,9 @@ class _TestDockerizedBaton(unittest.TestCase):
         """
         global _started_irods_servers
         if irods_version not in _started_irods_servers:
-            _started_irods_servers[irods_version] = get_static_irods_server_controller(irods_version).start_server()
+            IrodsServerController = get_static_irods_server_controller(irods_version)
+            atexit.register(IrodsServerController.tear_down)
+            _started_irods_servers[irods_version] = IrodsServerController.start_server()
         return _started_irods_servers[irods_version]
 
     def __init__(self, irods_version: IrodsVersion, top_level_image: Tuple[Optional[Tuple], Tuple[str, str]], *args, **kwargs):
@@ -72,11 +76,11 @@ class _TestDockerizedBaton(unittest.TestCase):
         self.assertEqual(response, '{}')
 
     def test_icommands_installed(self):
-        response = self._run(command="ienv", environment={"DEBUG": 1}, stderr=False)
+        response = self._run(command="ienv", environment={"DEBUG": 1}, stderr=True)
         self.assertIn("Release Version = rods", response)
 
     def test_baton_can_connect_to_irods_with_settings_file(self):
-        irods_server = self.get_irods_server(self._irods_version)
+        irods_server = type(self).get_irods_server(self._irods_version)
 
         settings_directory = create_temp_docker_mountable_directory()
         IrodsController = get_static_irods_server_controller(self._irods_version)
@@ -99,7 +103,7 @@ class _TestDockerizedBaton(unittest.TestCase):
         self.assertEqual(response, "/%s/home/%s:" % (user.zone, user.username))
 
     def test_baton_can_connect_to_irods_with_setting_parameters(self):
-        irods_server = self.get_irods_server(self._irods_version)
+        irods_server = type(self).get_irods_server(self._irods_version)
         host_config = create_client().create_host_config(links={
             irods_server.host: irods_server.host
         })
@@ -113,7 +117,7 @@ class _TestDockerizedBaton(unittest.TestCase):
         }, host_config=host_config)
         self.assertEqual(response, "/%s/home/%s:" % (user.zone, user.username))
 
-    def _run(self, stderr=True, **kwargs) -> str:
+    def _run(self, stderr: bool=True, **kwargs) -> str:
         """
         Run the containerised baton image that is been tested.
         :param stderr: whether content written to stderr should be included in the return
@@ -126,12 +130,17 @@ class _TestDockerizedBaton(unittest.TestCase):
         container = client.create_container(tag, **kwargs)
         id = container.get("Id")
         client.start(id)
-        log_generator = client.attach(id, logs=True, stream=True, stderr=stderr)
-        return "".join([line.decode("utf-8") for line in log_generator]).strip()
+        client.wait(id)
+        responses = client.logs(id, stderr=stderr).decode("utf-8")
+        return "".join(responses).strip()
 
 
-for _setup in builds_to_test:
-    test_class_name_postfix = camelize(_setup[1][0].split(":")[-1].replace("-", "_")).replace(".", "_")
+def _setup_test_for_build(setup):
+    """
+    Setup tests for the given build setup
+    :param setup: the build setup
+    """
+    test_class_name_postfix = camelize(setup[1][0].split(":")[-1].replace("-", "_")).replace(".", "_")
     class_name = "%s%s" % (_TestDockerizedBaton.__name__[1:], test_class_name_postfix)
 
     def init(self, *args, **kwargs):
@@ -140,12 +149,21 @@ for _setup in builds_to_test:
 
     globals()[class_name] = type(
         class_name,
-        (_TestDockerizedBaton, ),
+        (_TestDockerizedBaton,),
         {
-            "_SETUP": _setup,
+            "_SETUP": setup,
             "__init__": init
         }
     )
+
+single_setup_tag = os.environ.get("SINGLE_TEST_SETUP")
+if single_setup_tag is None:
+    for _setup in builds_to_test:
+        _setup_test_for_build(_setup)
+else:
+    for _setup in builds_to_test:
+        if _setup[1][0] == single_setup_tag:
+            _setup_test_for_build(_setup)
 
 
 # Stop unittest from running the abstract base test
