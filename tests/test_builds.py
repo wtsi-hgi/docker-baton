@@ -1,17 +1,16 @@
 import os
 import unittest
-from copy import copy
-from typing import List, Dict, Optional
-from typing import Tuple
+from typing import List, Dict, Optional, Tuple
 
 from inflection import camelize
-from testwithbaton._baton import build_baton_docker
-from testwithbaton._common import create_client
-from testwithbaton.irods._api import IrodsVersion, get_static_irods_server_controller
-from testwithbaton.models import BatonImage, ContainerisedIrodsServer, IrodsServer
 
+from hgicommon.docker.client import create_client
 from tests.builds_to_test import builds_to_test
 from tests.common import create_temp_docker_mountable_directory
+from testwithbaton._baton import build_baton_docker
+from testwithbaton.models import BatonImage
+from testwithirods.api import IrodsVersion, get_static_irods_server_controller
+from testwithirods.models import IrodsServer, ContainerisedIrodsServer
 
 _PROJECT_ROOT = "%s/.." % os.path.dirname(os.path.realpath(__file__))
 

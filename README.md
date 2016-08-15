@@ -42,11 +42,19 @@ To build a custom version of baton, ``BRANCH`` (either tag or branch name) and `
 Before building a specific baton image, you must first build the corresponding base image:
 - For baton using iRODS 3.3.1:
 ```bash
-docker build -t mercury/baton:base-for-baton-with-irods-3.3.1 base/irods-3.3.1
+docker build -t mercury/baton:base-for-baton-with-irods-3.3.1 base/irods-3/3.3.1
+```
+- For baton using iRODS 4.x.x:
+```bash
+docker build -t mercury/baton:4-base base/irods-4/4.1.8
 ```
 - For baton using iRODS 4.1.8:
 ```bash
-docker build -t mercury/baton:base-for-baton-with-irods-4.1.8 base/irods-4.1.8
+docker build -t mercury/baton:base-for-baton-with-irods-4.1.8 base/irods-4/4.1.8
+```
+- For baton using iRODS 4.1.9:
+```bash
+docker build -t mercury/baton:base-for-baton-with-irods-4.1.9 base/irods-4/4.1.9
 ```
 
 Then, to build the baton image: 
