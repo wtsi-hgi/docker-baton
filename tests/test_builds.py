@@ -76,7 +76,7 @@ class _TestDockerizedBaton(unittest.TestCase):
         self.assertEqual(response, '{}')
 
     def test_icommands_installed(self):
-        response = self._run(command="ienv", environment={"DEBUG": 1}, stderr=False)
+        response = self._run(command="ienv", environment={"DEBUG": 1}, stderr=True)
         self.assertIn("Release Version = rods", response)
 
     def test_baton_can_connect_to_irods_with_settings_file(self):
@@ -130,13 +130,8 @@ class _TestDockerizedBaton(unittest.TestCase):
         container = client.create_container(tag, **kwargs)
         id = container.get("Id")
         client.start(id)
-        log_generator = client.attach(id, logs=True, stream=True, stderr=stderr)
-        responses = []
-        for line in log_generator:
-            response = line.decode("utf-8")
-            logging.debug(response)
-            responses.append(response)
-        logging.debug("Log generator complete!")
+        client.wait(id)
+        responses = client.logs(id, stderr=stderr).decode("utf-8")
         return "".join(responses).strip()
 
 
