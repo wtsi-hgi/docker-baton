@@ -1,3 +1,4 @@
+import logging
 import os
 import unittest
 from typing import List, Dict, Optional, Tuple
@@ -127,10 +128,16 @@ class _TestDockerizedBaton(unittest.TestCase):
         id = container.get("Id")
         client.start(id)
         log_generator = client.attach(id, logs=True, stream=True, stderr=stderr)
-        return "".join([line.decode("utf-8") for line in log_generator]).strip()
+        responses = []
+        for line in log_generator:
+            response = line.decode("utf-8")
+            logging.debug(response)
+            responses.append(response)
+        logging.debug("Log generator complete!")
+        return "".join(responses).strip()
 
 
-def setup_test_for_build(setup):
+def _setup_test_for_build(setup):
     """
     TODO
     :param setup:
@@ -155,12 +162,11 @@ def setup_test_for_build(setup):
 single_setup_tag = os.environ.get("SINGLE_TEST_SETUP")
 if single_setup_tag is None:
     for _setup in builds_to_test:
-        setup_test_for_build(_setup)
+        _setup_test_for_build(_setup)
 else:
-    for build in builds_to_test:
-        if build[1][0] == single_setup_tag:
-            setup_test_for_build(build)
-            break
+    for _setup in builds_to_test:
+        if _setup[1][0] == single_setup_tag:
+            _setup_test_for_build(_setup)
 
 
 # Stop unittest from running the abstract base test
