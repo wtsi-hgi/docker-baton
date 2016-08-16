@@ -7,10 +7,6 @@ services:
   - docker
 
 env:
-  global:
-    - DOCKER_HOST="tcp://127.0.0.1:2375"
-    - DOCKER_TLS_VERIFY=""
-    - DOCKER_CERT_PATH=""
   matrix:
     - SINGLE_TEST_SETUP=mercury/baton:0.16.1-with-irods-3.3.1
     - SINGLE_TEST_SETUP=mercury/baton:0.16.2-with-irods-3.3.1
@@ -23,10 +19,6 @@ env:
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-3.3.1
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-4.1.8
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-4.1.9
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y -o Dpkg::Options::=--force-confdef docker-engine
 
 install:
   - pip install -r test_requirements.txt
