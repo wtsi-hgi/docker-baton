@@ -1,5 +1,5 @@
 git+https://github.com/wtsi-hgi/test-with-baton.git@8546f9030c7c5c467f195c76c94a17833d87d51f#egg=testwithbaton
-git+https://github.com/wtsi-hgi/test-with-irods.git@3391b462b36e86a8003171bf76cf0031e177f884#egg=testwithirods
+git+https://github.com/wtsi-hgi/test-with-irods.git@c31cf5c60df048a1573419d9c8a63123dbeba0d5#egg=testwithirods
 docker-py==1.9.0
 inflection==0.3.1
 nose==1.3.7
