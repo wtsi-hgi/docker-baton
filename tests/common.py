@@ -8,9 +8,8 @@ import atexit
 
 def create_temp_docker_mountable_directory() -> str:
     """
-    TODO
-    :param self:
-    :return:
+    Creates a temporary Docker mountable directory that will be removed on exit.
+    :return: the path to the directory.
     """
     def remove_temp_folder(location: str):
         if os.path.exists(location):

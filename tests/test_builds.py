@@ -1,9 +1,8 @@
-import logging
+import atexit
 import os
 import unittest
 from typing import List, Dict, Optional, Tuple
 
-import atexit
 from inflection import camelize
 
 from hgicommon.docker.client import create_client
@@ -155,6 +154,7 @@ def _setup_test_for_build(setup):
             "__init__": init
         }
     )
+
 
 single_setup_tag = os.environ.get("SINGLE_TEST_SETUP")
 if single_setup_tag is None:
