@@ -23,6 +23,8 @@ ones linked to a branch) are not hosted on Dockerhub as the commit used is deter
     - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-3.3.1).
     - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-4.1.8).    
     - [For iRODs version 4.1.9](https://github.com/wtsi-hgi/docker-baton/tree/master/0.16.4/irods-4.1.9).
+- baton version 0.17.0:
+    - [For iRODs version 4.1.9](https://github.com/wtsi-hgi/docker-baton/tree/master/0.17.0/irods-4.1.9).
 - baton development ("devel") branch:
     - [For iRODs version 3.3.1](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-3.3.1) (not on Dockerhub).
     - [For iRODs version 4.1.8](https://github.com/wtsi-hgi/docker-baton/tree/master/devel/irods-4.1.8) (not on Dockerhub).
@@ -100,8 +102,7 @@ way as if baton was installed on the test machine.
 
 
 ### Using with a containerised instance of iRODS
-If you wish to try baton with a test instance of iRODS, [these iRODs version 3.3.1 and 4.1.8 server Docker images]
-(https://hub.docker.com/r/mercury/icat/) can be used.
+If you wish to try baton with a test instance of iRODS, [these iRODs version 3.3.1 and 4.1.8 server Docker images](https://hub.docker.com/r/mercury/icat/) can be used.
 
 
 ## Debugging
