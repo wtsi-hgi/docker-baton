@@ -17,9 +17,11 @@ env:
     - SINGLE_TEST_SETUP=mercury/baton:0.16.4-with-irods-4.1.8
     - SINGLE_TEST_SETUP=mercury/baton:0.16.4-with-irods-4.1.9
     - SINGLE_TEST_SETUP=mercury/baton:0.17.0-with-irods-4.1.9
+    - SINGLE_TEST_SETUP=mercury/baton:0.17.0-with-irods-4.1.10
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-3.3.1
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-4.1.8
     - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-4.1.9
+    - SINGLE_TEST_SETUP=mercury/baton:devel-with-irods-4.1.10
 
 install:
   - pip install -r test_requirements.txt
